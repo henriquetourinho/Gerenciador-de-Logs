@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# Configurações
+LOG_DIR="/caminho/dos/logs"
+ARCHIVE_DIR="/caminho/arquivo/logs"
+EMAIL="seuemail@exemplo.com"
+RETENTION_DAYS=30
+LOG_FILE="/caminho/do/log/gerenciamento_de_logs.log"
+
+# Função de log
+log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
+}
+
+# Verificar se os diretórios existem
+if [ ! -d "$LOG_DIR" ]; then
+    log "Erro: Diretório de logs $LOG_DIR não existe."
+    exit 1
+fi
+
+if [ ! -d "$ARCHIVE_DIR" ]; then
+    mkdir -p "$ARCHIVE_DIR"
+    log "Diretório de arquivo $ARCHIVE_DIR criado."
+fi
+
+# Mover logs antigos para o diretório de arquivo
+log "Movendo logs antigos para o diretório de arquivo."
+find "$LOG_DIR" -type f -name "*.log" -mtime +$RETENTION_DAYS -exec mv {} "$ARCHIVE_DIR" \;
+
+if [ $? -eq 0 ]; then
+    log "Logs antigos movidos com sucesso."
+else
+    log "Erro ao mover logs antigos."
+fi
+
+# Compactar logs antigos no diretório de arquivo
+log "Compactando logs antigos no diretório de arquivo."
+find "$ARCHIVE_DIR" -type f -name "*.log" -exec gzip {} \;
+
+if [ $? -eq 0 ]; then
+    log "Logs antigos compactados com sucesso."
+else
+    log "Erro ao compactar logs antigos."
+fi
+
+# Remover logs antigos após o período de retenção
+log "Removendo logs antigos após o período de retenção."
+find "$ARCHIVE_DIR" -type f -name "*.gz" -mtime +$RETENTION_DAYS -exec rm {} \;
+
+if [ $? -eq 0 ]; then
+    log "Logs antigos removidos com sucesso."
+else
+    log "Erro ao remover logs antigos."
+fi
+
+# Enviar relatório de status por email
+log "Enviando relatório de status por email para $EMAIL."
+mail -s "Relatório de Gerenciamento de Logs" "$EMAIL" < "$LOG_FILE"
+
+if [ $? -eq 0 ]; then
+    log "Relatório de status enviado com sucesso."
+else
+    log "Erro ao enviar relatório de status."
+fi
+
+log "Processo de gerenciamento de logs concluído."
+
+exit 0
+
