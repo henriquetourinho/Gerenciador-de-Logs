@@ -7,6 +7,20 @@ Este é um script em shell para gerenciar logs de sistema. Ele realiza as seguin
 3. Remove logs antigos após um período de tempo especificado.
 4. Envia relatórios de status por email.
 
+## Compatibilidade
+
+Este script foi desenvolvido e testado em sistemas Unix-like, incluindo:
+
+- **Linux** (Debian, Ubuntu, CentOS, Fedora, etc.)
+- **macOS**
+
+Para garantir o funcionamento correto, é necessário ter as seguintes ferramentas disponíveis no ambiente:
+
+- `bash`
+- `find`
+- `gzip`
+- `mail` (ou `mailx`)
+
 ## Configuração
 
 ### Diretórios e Arquivos
