@@ -28,7 +28,7 @@ Este é um script em shell para gerenciar logs de sistema. Ele realiza as seguin
 
 2. **Dependências**
 Certifique-se de ter o comando mail configurado corretamente no seu sistema para enviar emails.
-Você pode instalar o mail em sistemas baseados em Debian com:
+Você pode instalar o mail em sistemas baseados em Debian com:<br>
 sudo apt-get install mailutils
 
 4. **Torne o script executável:**
