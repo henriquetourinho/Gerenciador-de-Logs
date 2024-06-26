@@ -26,7 +26,12 @@ Este é um script em shell para gerenciar logs de sistema. Ele realiza as seguin
 
    Salve o script em um arquivo chamado `gerenciador_de_logs.sh`.
 
-2. **Torne o script executável:**
+2. **Dependências**
+Certifique-se de ter o comando mail configurado corretamente no seu sistema para enviar emails.
+Você pode instalar o mail em sistemas baseados em Debian com:
+sudo apt-get install mailutils
+
+4. **Torne o script executável:**
 
    ```bash
    chmod +x gerenciador_de_logs.sh
